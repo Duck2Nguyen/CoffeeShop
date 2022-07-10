@@ -1,0 +1,31 @@
+.content{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+        .item{
+            margin: 10px 0px; 
+            padding: 10px 10px;           
+            display: flex;
+            flex-direction: column;
+            border: 1px solid white;
+            width: 30%;
+            height: 200px;
+            text-align: left;
+            .title{ 
+                display: flex;
+                font-size: 20px;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+            .detail{
+                margin-top: 20px;  
+                color: white;
+            }
+        }
+}
+.container2{
+    background-color: #302b2b;
+    color: white;
+}

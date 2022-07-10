@@ -1,0 +1,23 @@
+.item{
+    margin: 10px 0px; 
+    padding: 10px 10px;           
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+    width: 60%;
+    // height: 200px;
+    text-align: left;
+    .title{ 
+        display: flex;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .detail{
+        margin-top: 20px;  
+        color: white;
+    }
+    .button{
+        width: fit-content;
+    }
+}

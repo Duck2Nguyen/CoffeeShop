@@ -1,0 +1,60 @@
+.container{
+    // width: 100%;
+    padding: 0 40px;
+    color:rgb(51, 54, 56);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: CanelaText-Light;
+    .login-name{
+        font-size: 36px;
+        font-weight: 500;
+        font-variant-numeric: lining-nums;
+        color: rgb(51, 54, 56);
+    }
+    .login-des{
+        font-size: 17px;
+    }
+    .login-form{
+        width: 460px;
+        display: flex;
+        flex-direction: column;
+        box-sizing:border-box;
+        color:rgb(51, 54, 56);
+        // font-family: CanelaText-Light;
+        .form-input{
+            padding: 0 18px;
+            margin-top: 20px;
+            height :52px;
+            line-height :29.4667px;
+            font-size: 18px;
+            font-style: normal;
+            font-variant-numeric :lining-nums;
+            font-weight: 400;
+            border-color: rgba(51, 54, 56, 0.15);
+        }
+    }
+    .login-button{
+        padding: 0 18px;
+        margin-top: 20px;
+        height :52px;
+        line-height :29.4667px;
+        font-size: 18px;
+        font-style: normal;
+        font-variant-numeric :lining-nums;
+        font-weight: 400;
+        color: white;
+        background-color: rgb(187, 165, 123);
+        border-color: rgba(51, 54, 56, 0.15);
+        cursor: pointer;
+    }
+
+    .form-redirect{
+        font-size: 50px;
+        a{
+            color:rgb(51, 54, 56);
+            cursor: pointer;
+        }
+        
+    }
+}
