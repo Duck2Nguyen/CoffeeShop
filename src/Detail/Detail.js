@@ -6,31 +6,8 @@ import Image from '../Homepage/Image/Coffee/coffee.jpeg'
 import { set } from 'lodash';
 function Detail() {
     const [value, setValue] = useState('1');
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     const [arrValue, setarrValue] = useState([]);
-
-    var array = [];
-    for (var i = 1; i < 13; i++) {
-        array.push(
-            {
-                id: i,
-                url: Image,
-                name: `Blue Boy ${i}`,
-                price: '17.00'
-            }
-        )
-    }
-
-    // console.log(array);
-    useEffect(async () => {
-        await setarrValue(array)
-    }, [])
-
-
-
-    let { id } = useParams();
-    // console.log(parseInt(id))
-    // console.log(arrValue[parseInt(id) - 1])
 
     const onChangeInput = (event) => {
         setValue(event.target.value)
@@ -46,31 +23,30 @@ function Detail() {
         }
     }
 
-    const addToCart = () => {
+
+    const addToCart = (data) => {
+        let object = []
+        var item = localStorage.getItem('cartData');
+        if (item === null) {
+            localStorage.setItem('cartData', JSON.stringify([]))
+        }
+        else {
+            try {
+                object = JSON.parse(item);
+            } catch (error) {
+                console.log('err item', item);
+            }
+        }
+        object.push({
+            id: data.id,
+            url: data.url,
+            name: data.name,
+            num: parseInt(value) - 1,
+            price: data.price
+        })
+
         if (localStorage) {
-            localStorage.setItem('id1', JSON.stringify({
-                id: '1',
-                url: Image,
-                name: 'Blue Boy',
-                num: value,
-                price: '1700'
-            }))
-            localStorage.setItem('id2', JSON.stringify({
-                id: '2',
-                url: Image,
-                name: 'Blue Boy 2',
-                num: parseInt(value + 1),
-                price: '1700'
-            }))
-
-            localStorage.setItem('id3', JSON.stringify({
-                id: '3',
-                url: Image,
-                name: 'Blue Boy 3',
-                num: parseInt(value + 2),
-                price: '1700'
-            }))
-
+            localStorage.setItem('cartData', JSON.stringify(object))
         } else {
             alert('No local')
         }
@@ -84,12 +60,62 @@ function Detail() {
         };
     }
 
-    var item = [];
-    item.push(arrValue[parseInt(id) - 1]);
 
+    useEffect(async () => {
+        let array = [];
+        var i = 1;
+        for (i; i < 13; i++) {
+            array.push(
+                {
+                    id: i,
+                    url: Image,
+                    name: `Blue Boy ${i}`,
+                    price: '17.00'
+                }
+            )
+        }
+        // console.log(array)
+        if (array && array.length !== 0) {
+            try {
+                await setarrValue(array);
+            } catch (error) {
+                console.log('err value', arrValue);
+            }
+        }
+        // setarrValue(array);
+        // console.log(arrValue)
+    }, [])
+    // console.log(arrValue)
+    // useEffect(async () => {
+    //     for (var i = 1; i < 13; i++) {
+    //         setarrValue([...arrValue, {
+    //             id: i,
+    //             url: Image,
+    //             name: `Blue Boy ${i}`,
+    //             price: '17.00'
+    //         }])
+    //     }
+    // }, [])
+
+
+    console.log(arrValue)
+    let { id } = useParams();
+    // var item = [];
+
+    // try {
+    //     item.push(arrValue[parseInt(id) - 1]);
+    // } catch (error) {
+    //     console.log('err item', item);
+    // }
+    useEffect(() => {
+        // console.log('heloo');
+        console.log(arrValue)
+        if (arrValue && arrValue[parseInt(id) - 1]) {
+            setData(arrValue[parseInt(id) - 1])
+        }
+    })
 
     return (
-
         <div className='detail-display'>
             <Header />
             <div className='detail-container container'>
@@ -99,8 +125,8 @@ function Detail() {
                     </div>
                     <div className='detail-order col-6'>
                         <div className='detail-item'>
-                            <div className='item-name'>{item.name}</div>
-                            <div className='item-price'>${item.price}</div>
+                            <div className='item-name'>{data.name}</div>
+                            <div className='item-price'>${data.price}</div>
                         </div>
                         <div className='detail-quantity'>
                             <div className='quantity-title'>Quantity:</div>
@@ -110,9 +136,9 @@ function Detail() {
                                 <button className='quantity-button' onClick={() => subItem()}>-</button>
                             </div>
                         </div>
-                        <buton className='add'>
-                            <div className='add-name' onClick={() => addToCart()}>ADD TO CART</div>
-                        </buton>
+                        <button className='add'>
+                            <div className='add-name' onClick={() => addToCart(data)}>ADD TO CART</div>
+                        </button>
                     </div>
 
                     <div className='detail-descriptions col-12'>
