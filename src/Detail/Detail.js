@@ -47,6 +47,7 @@ function Detail() {
 
         if (localStorage) {
             localStorage.setItem('cartData', JSON.stringify(object))
+            window.location.reload();
         } else {
             alert('No local')
         }
