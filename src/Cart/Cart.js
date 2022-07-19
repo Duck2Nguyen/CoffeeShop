@@ -81,7 +81,7 @@ function Cart() {
                                             <div className='item-name'>{value.name}</div>
                                             <div className='item-price'>{`$${value.price}.00`}</div>
                                         </div>
-                                        <div className='cart-quantity'>{value.num}oz</div>
+                                        <div className='cart-quantity'>Quantity: {value.num}</div>
                                     </div>
                                 </div>
                             )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Login.scss'
 import Header from '../Header/Header';
-import handleLoginApi from '../Services/userService'
+import { handleLoginApi } from '../Services/userService'
 
 
 function Login() {
@@ -36,7 +36,6 @@ function Login() {
     }
 
     const handleLogin2 = async () => {
-        console.log('hello')
         try {
             let data = await handleLoginApi(value.email, value.password)
             if (data && data.errCode !== 0) {
@@ -46,6 +45,7 @@ function Login() {
                 console.log(data)
             }
         } catch (error) {
+            console.log('loi cm rofoi')
             if (error.response) {
                 if (error.response.data) {
                     console.log("error lan 2")

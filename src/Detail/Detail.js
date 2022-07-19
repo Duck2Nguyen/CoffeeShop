@@ -4,10 +4,13 @@ import './Detail.scss'
 import Header from '../Header/Header'
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
 import { set } from 'lodash';
+import { getItemByID } from '../Services/userService'
+
 function Detail() {
     const [value, setValue] = useState('1');
     const [data, setData] = useState({});
     const [arrValue, setarrValue] = useState([]);
+    const [imageUrl, setimageUrl] = useState(Image);
 
     const onChangeInput = (event) => {
         setValue(event.target.value)
@@ -39,7 +42,7 @@ function Detail() {
         }
         object.push({
             id: data.id,
-            url: data.url,
+            url: data.url !== undefined ? data.url : Image,
             name: data.name,
             num: parseInt(value) - 1,
             price: data.price
@@ -62,67 +65,69 @@ function Detail() {
     }
 
 
-    useEffect(async () => {
-        let array = [];
-        var i = 1;
-        for (i; i < 13; i++) {
-            array.push(
-                {
-                    id: i,
-                    url: Image,
-                    name: `Blue Boy ${i}`,
-                    price: '17.00'
-                }
-            )
-        }
-        // console.log(array)
-        if (array && array.length !== 0) {
-            try {
-                await setarrValue(array);
-            } catch (error) {
-                console.log('err value', arrValue);
-            }
-        }
-        // setarrValue(array);
-        // console.log(arrValue)
-    }, [])
-    // console.log(arrValue)
     // useEffect(async () => {
-    //     for (var i = 1; i < 13; i++) {
-    //         setarrValue([...arrValue, {
-    //             id: i,
-    //             url: Image,
-    //             name: `Blue Boy ${i}`,
-    //             price: '17.00'
-    //         }])
+    //     let array = [];
+    //     var i = 1;
+    //     for (i; i < 13; i++) {
+    //         array.push(
+    //             {
+    //                 id: i,
+    //                 url: Image,
+    //                 name: `Blue Boy ${i}`,
+    //                 price: '17.00'
+    //             }
+    //         )
     //     }
+    //     // console.log(array)
+    //     if (array && array.length !== 0) {
+    //         try {
+    //             await setarrValue(array);
+    //         } catch (error) {
+    //             console.log('err value', arrValue);
+    //         }
+    //     }
+    //     // setarrValue(array);
+    //     // console.log(arrValue)
     // }, [])
 
 
-    console.log(arrValue)
+    // console.log(arrValue)
     let { id } = useParams();
-    // var item = [];
 
-    // try {
-    //     item.push(arrValue[parseInt(id) - 1]);
-    // } catch (error) {
-    //     console.log('err item', item);
-    // }
-    useEffect(() => {
-        // console.log('heloo');
-        console.log(arrValue)
-        if (arrValue && arrValue[parseInt(id) - 1]) {
-            setData(arrValue[parseInt(id) - 1])
+    useEffect(async () => {
+        // console.log(id);
+        try {
+            let data = await getItemByID(id)
+            console.log(data.data[0])
+            setData(data.data[0])
+
+            let imageBase64 = '';
+            // if (image) {
+            //     console.log('co image')
+            //     imageBase64 = new Buffer(image, 'base64').toString('binary')
+            //     setimageUrl(imageBase64)
+            //     console.log("heloo", imageUrl)
+            // }
+
+        } catch (error) {
+            console.log('loi cm rofoi')
+            if (error.response) {
+                if (error.response.data) {
+                    console.log("error lan 2")
+                }
+                console.log(error.response)
+            }
         }
-    })
+    }, [])
 
     return (
         <div className='detail-display'>
             <Header />
             <div className='detail-container container'>
                 <div className='row'>
-                    <div className='detail-image col-6'>
-                        <img src={Image} className="detail-picture"></img>
+                    <div className='detail-image col-6'
+                        style={{ backgroundImage: `url(${Image})` }}
+                    >
                     </div>
                     <div className='detail-order col-6'>
                         <div className='detail-item'>

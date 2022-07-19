@@ -4,6 +4,7 @@ import Header from '../Header/Header'
 import { Link, NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
+import { getAllCollection } from '../Services/userService'
 
 function Homepage() {
 
@@ -24,28 +25,93 @@ function Homepage() {
         setarrValue(array)
     }, [])
 
+    useEffect(async () => {
+        try {
+            let data = await getAllCollection()
+            console.log(data)
+            if (data && data.errCode === 0) {
+                var arrayValue = [];
+                var array = data.users;
+                array.map((value, index) => {
+                    arrayValue.push(
+                        {
+                            id: value.productID,
+                            url: value.image !== undefined ? value.image : Image,
+                            name: value.name,
+                            price: value.price !== undefined ? value.price : '17.00',
+                            parentID: value.parentID
+                        }
+                    )
+                })
+
+                setarrValue(arrayValue)
+            }
+        } catch (error) {
+            console.log('loi cm rofoi')
+            if (error.response) {
+                if (error.response.data) {
+                    console.log("error lan 2")
+                }
+                console.log(error.response)
+            }
+        }
+    }, [])
+
     return (
         <>
             <Header />
             <div className='homepage-container'>
                 <div className='homepage-title'>Methodical</div>
                 <div className="topnav">
-                    <NavLink activeClassName="active1" to="/" exact>Whole Bean Coffe</NavLink>
-                    <NavLink activeClassName="active1" to="/tea">TEA</NavLink>
-                    <NavLink activeClassName="active1" to="/merch">MERCH</NavLink>
-                    <NavLink activeClassName="active1" to="/brew-gear">BERW GEAR</NavLink>
-                    <NavLink activeClassName="active1" to="/subcriptions">SUBCIPTIONS</NavLink>
+                    <a activeClassName="active1" href="#itemCoffee" exact>COFFEE</a>
+                    <a activeClassName="active1" href="#itemCake">CAKE</a>
+                    <a activeClassName="active1" href="#itemTea">TEA</a>
+                    <a activeClassName="active1" href="/brew-gear">BERW GEAR</a>
+                    <a activeClassName="active1" href="/subcriptions">SUBCIPTIONS</a>
                 </div>
                 <div className='container coffee'>
+                    <div className='item__title' id='itemCoffee'>COFFEE</div>
                     <div className='row'>
-                        {arrValue.map((value, index) => {
-                            return (
-                                <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
-                                    <img src={value.url} className="item-image"></img>
-                                    <div className='item-feature item-name'>{value.name}</div>
-                                    <div className='item-feature item-price'>{value.price}</div>
-                                </Link>
-                            )
+                        {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
+                            // console.log(value)
+                            if (value.parentID === 'COF000') {
+
+                                return (
+                                    <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
+                                        <img src={value.url} className="item-image"></img>
+                                        <div className='item-feature item-name'>{value.name}</div>
+                                        <div className='item-feature item-price'>{value.price + " $"}</div>
+                                    </Link>
+                                )
+                            }
+                        })}
+                    </div>
+                    <div className='item__title' id='itemCake'>CAKE</div>
+                    <div className='row'>
+                        {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
+                            if (value.parentID === "CKE000") {
+                                return (
+                                    <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
+                                        <img src={value.url} className="item-image"></img>
+                                        <div className='item-feature item-name'>{value.name}</div>
+                                        <div className='item-feature item-price'>{value.price}</div>
+                                    </Link>
+                                )
+                            }
+                        })}
+                    </div>
+                    <div className='item__title' id='itemTea'>TEA</div>
+                    <div className='row'>
+                        {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
+                            if (value.parentID === "TEA000") {
+                                return (
+                                    <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
+                                        <img src={value.url} className="item-image"></img>
+                                        <div className='item-feature item-name'>{value.name}</div>
+                                        <div className='item-feature item-price'>{value.price}</div>
+                                    </Link>
+                                )
+                            }
                         })}
                     </div>
                 </div>
