@@ -1,8 +1,20 @@
 import axios from '../axios'
 
-const handleLoginApi = (userEmail, userPassword) => {
-    console.log('vao handle')
-    return axios.post('/api/login', { email: userEmail, password: userPassword });
+const handleLoginApi = (username, password) => {
+    // console.log('vao handle')
+    return axios.post('/login', { username: username, password: password });
+}
+
+const handleRegisterApi = (data) => {
+    // console.log('vao handle')
+    return axios.post('/register', {
+        username: data.userName,
+        password: data.password,
+        fullname: data.fullName,
+        address: data.address,
+        phone: data.phone,
+        email: data.email
+    });
 }
 
 const getAllCollection = () => {
@@ -13,7 +25,21 @@ const getItemByID = (id) => {
     return axios.get(`/collections/${id}`);
 }
 
+const addNewProduct = (data) => {
+    // console.log('vao handle')
+    return axios.post('/addProduct', {
+        categoryID: data.category,
+        name: data.name,
+        description: data.description,
+        image: data.image,
+        quantity: parseInt(data.quantity),
+        price: parseFloat(data.price)
+
+    });
+}
+
 
 export {
-    handleLoginApi, getAllCollection, getItemByID
+    handleLoginApi, getAllCollection, getItemByID, addNewProduct,
+    handleRegisterApi
 } 

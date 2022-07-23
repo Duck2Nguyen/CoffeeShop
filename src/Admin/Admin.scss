@@ -1,0 +1,12 @@
+.admin-input{
+    width: 600px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    .input-item{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

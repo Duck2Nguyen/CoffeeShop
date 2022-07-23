@@ -4,7 +4,7 @@ import { BsFillCartCheckFill } from 'react-icons/bs'
 import { Link, NavLink } from 'react-router-dom';
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
 import Header from '../Header/Header'
-import { set } from 'lodash';
+// import ModalInput from './ModalInput';
 
 function Cart() {
     const [value, setValue] = useState('');
@@ -36,7 +36,7 @@ function Cart() {
                     name: value.name,
                     url: value.url,
                     num: parseInt(value.num) + 1,
-                    price: parseInt(value.price) * (parseInt(value.num) + 1),
+                    price: parseFloat(value.price) * (parseFloat(value.num) + 1),
                     id: value.id
                 })
             })
@@ -51,7 +51,7 @@ function Cart() {
         var tong = 0;
         {
             arrValue.map((value, index) => {
-                tong += parseInt(value.price)
+                tong += parseFloat(value.price)
             })
         }
         setSum(tong);
@@ -79,7 +79,7 @@ function Cart() {
                                     <div className='cart-order'>
                                         <div className='item-detail'>
                                             <div className='item-name'>{value.name}</div>
-                                            <div className='item-price'>{`$${value.price}.00`}</div>
+                                            <div className='item-price'>{`$${value.price}`}</div>
                                         </div>
                                         <div className='cart-quantity'>Quantity: {value.num}</div>
                                     </div>
@@ -104,10 +104,11 @@ function Cart() {
                         <div className='cart-more__right'>Shipping & taxes calculated at checkout</div>
                     </div>
                     <button className='add'>
-                        <Link className='add-name' onClick={() => checkout()} to={'/cart'}>CHECKOUT .  {`$${sum}.00`} USD</Link>
+                        <Link className='add-name' onClick={() => checkout()} to={'/cart'}>ORDER .  {`$${sum}`} USD</Link>
                     </button>
                 </div>
             </div>
+            {/* <ModalInput /> */}
         </div>
 
 

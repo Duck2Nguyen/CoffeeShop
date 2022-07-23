@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import './Login.scss'
 import Header from '../Header/Header';
 import { handleLoginApi } from '../Services/userService'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import toast, { Toaster } from 'react-hot-toast';
+// import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 function Login() {
     const [value, setValue] = useState({
-        email: '',
+        userName: '',
         password: ''
     });
     const [arrValue, setarrValue] = useState([]);
@@ -14,7 +17,7 @@ function Login() {
     const onChangeInput = (event) => {
         // console.log(event.target.value)
         setValue({
-            email: event.target.value
+            userName: event.target.value
         })
     }
 
@@ -30,22 +33,54 @@ function Login() {
     const handleLogin = () => {
         console.log(value)
         setValue({
-            email: '',
+            userName: '',
             password: ''
         })
     }
 
     const handleLogin2 = async () => {
+        console.log('local', JSON.parse(localStorage.getItem('isLogin')))
+        // console.log(value.userName, value.password)
+        if (value.userName === '' || value.password === undefined) {
+            toast.error("Input Invalid");
+            setValue({
+                userName: '',
+                password: ''
+            })
+            return;
+        }
         try {
-            let data = await handleLoginApi(value.email, value.password)
+            let data = await handleLoginApi(value.userName, value.password)
             if (data && data.errCode !== 0) {
                 console.log("error")
+                localStorage.setItem('isLogin', 'false')
+                toast.error("Username or password is incorrect! Please try again!!!");
+                setValue({
+                    userName: '',
+                    password: ''
+                })
             }
             if (data && data.errCode === 0) {
-                console.log(data)
+                toast.success("Login successfull!");
+                console.log('data', data)
+                localStorage.setItem('isLogin', 'true')
+                localStorage.setItem('customerData', JSON.stringify(data))
+                console.log('local', JSON.parse(localStorage.getItem('customerData')))
+                setValue({
+                    userName: '',
+                    password: ''
+                })
+                console.log('local', JSON.parse(localStorage.getItem('isLogin')))
+                setTimeout(() => {
+                    window.location.assign("http://localhost:3000")
+                }, 3000);
+
+                // this.props.history.push(`/home`)
             }
         } catch (error) {
+            toast.error("Login Error");
             console.log('loi cm rofoi')
+            localStorage.setItem('isLogin', 'false')
             if (error.response) {
                 if (error.response.data) {
                     console.log("error lan 2")
@@ -62,10 +97,10 @@ function Login() {
             <div className="container login-container">
                 <div className='login-title'>
                     <p className='login-name'>Login</p>
-                    <p className='login-des'>Please enter your e-mail and password:</p>
+                    <p className='login-des'>Please enter your username and password:</p>
                 </div>
                 <div className='login-form'>
-                    <input className='form-input' placeholder='Email' value={value.email} onChange={(event) => onChangeInput(event)}></input>
+                    <input className='form-input' placeholder='Username' value={value.userName} onChange={(event) => onChangeInput(event)}></input>
                     <input className='form-input' type='password' placeholder='Password' value={value.password} onChange={(event) => onChangePassword(event)}></input>
                     <button type='submit' className='login-button' onClick={() => handleLogin2()}>
                         Login
@@ -75,6 +110,17 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     )
 }

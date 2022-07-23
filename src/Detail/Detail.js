@@ -10,7 +10,7 @@ function Detail() {
     const [value, setValue] = useState('1');
     const [data, setData] = useState({});
     const [arrValue, setarrValue] = useState([]);
-    const [imageUrl, setimageUrl] = useState(Image);
+    // const [imageUrl, setimageUrl] = useState(Image);
 
     const onChangeInput = (event) => {
         setValue(event.target.value)
@@ -42,9 +42,9 @@ function Detail() {
         }
         object.push({
             id: data.id,
-            url: data.url !== undefined ? data.url : Image,
-            name: data.name,
-            num: parseInt(value) - 1,
+            url: data.image ? data.image : Image,
+            name: data.productName,
+            num: parseFloat(value) - 1,
             price: data.price
         })
 
@@ -101,7 +101,7 @@ function Detail() {
             console.log(data.data[0])
             setData(data.data[0])
 
-            let imageBase64 = '';
+            // let imageBase64 = '';
             // if (image) {
             //     console.log('co image')
             //     imageBase64 = new Buffer(image, 'base64').toString('binary')
@@ -125,13 +125,12 @@ function Detail() {
             <Header />
             <div className='detail-container container'>
                 <div className='row'>
-                    <div className='detail-image col-6'
-                        style={{ backgroundImage: `url(${Image})` }}
-                    >
+                    <div className='detail-image col-6'>
+                        <img src={data.image} className="detail-picture"></img>
                     </div>
                     <div className='detail-order col-6'>
                         <div className='detail-item'>
-                            <div className='item-name'>{data.name}</div>
+                            <div className='item-name'>{data.productName}</div>
                             <div className='item-price'>${data.price}</div>
                         </div>
                         <div className='detail-quantity'>
@@ -148,13 +147,7 @@ function Detail() {
                     </div>
 
                     <div className='detail-descriptions col-12'>
-                        Named for one half of our prized paint-by-number renditions of the classic eighteenth century portraits
-                        The Blue Boy and Pinkie, Blue Boy represents who we are at Methodical.
-                        This coffee embodies a certain classical energy that the painting itself imparts, with a down to earth, paint-by-number twist.
-                        The character of this coffee is smooth, chocolatey, sweet; it’s body is velvety soft.
-                        It’s a coffee that will stand the test of time, a testament to the origins present in its makeup.
-                        Blue Boy does right by these origins, displaying the coffees at their best; he does right by us, representing humble sophistication with panache;
-                        and he does right by his namesake, keeping his arcadian gentility alive.
+                        {data.description}
                     </div>
                 </div>
 

@@ -5,6 +5,7 @@ import Header from './Header/Header';
 import Homepage from './Homepage/Homepage';
 import Detail from './Detail/Detail';
 import Cart from './Cart/Cart';
+import Admin from './Admin/Admin';
 
 import {
   BrowserRouter as Router,
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path="/detail/:id" exact>
             <Detail />
+          </Route>
+          <Route path="/admin" exact>
+            <Admin />
           </Route>
           {/* <Route path="/todo">
             <Todo />

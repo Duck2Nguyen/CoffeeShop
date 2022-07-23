@@ -9,21 +9,21 @@ import { getAllCollection } from '../Services/userService'
 function Homepage() {
 
     const [arrValue, setarrValue] = useState([]);
-    useEffect(async () => {
-        var array = [];
-        for (var i = 1; i < 13; i++) {
-            array.push(
-                {
-                    id: i,
-                    url: Image,
-                    name: `Blue Boy ${i}`,
-                    price: '17.00'
-                }
-            )
-        }
-        console.log(array);
-        setarrValue(array)
-    }, [])
+    // useEffect(async () => {
+    //     var array = [];
+    //     for (var i = 1; i < 13; i++) {
+    //         array.push(
+    //             {
+    //                 id: i,
+    //                 url: Image,
+    //                 name: `Blue Boy ${i}`,
+    //                 price: '17.00'
+    //             }
+    //         )
+    //     }
+    //     console.log(array);
+    //     setarrValue(array)
+    // }, [])
 
     useEffect(async () => {
         try {
@@ -36,8 +36,8 @@ function Homepage() {
                     arrayValue.push(
                         {
                             id: value.productID,
-                            url: value.image !== undefined ? value.image : Image,
-                            name: value.name,
+                            url: value.image ? value.image : Image,
+                            name: value.productName,
                             price: value.price !== undefined ? value.price : '17.00',
                             parentID: value.parentID
                         }
@@ -75,10 +75,12 @@ function Homepage() {
                         {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
                             // console.log(value)
                             if (value.parentID === 'COF000') {
-
                                 return (
                                     <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
                                         <img src={value.url} className="item-image"></img>
+                                        {/* <div className="item-image"
+                                            style={{ backgroundImage: `url(${value.url})` }}
+                                        /> */}
                                         <div className='item-feature item-name'>{value.name}</div>
                                         <div className='item-feature item-price'>{value.price + " $"}</div>
                                     </Link>
@@ -94,7 +96,7 @@ function Homepage() {
                                     <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
                                         <img src={value.url} className="item-image"></img>
                                         <div className='item-feature item-name'>{value.name}</div>
-                                        <div className='item-feature item-price'>{value.price}</div>
+                                        <div className='item-feature item-price'>{value.price + " $"}</div>
                                     </Link>
                                 )
                             }
@@ -108,7 +110,7 @@ function Homepage() {
                                     <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
                                         <img src={value.url} className="item-image"></img>
                                         <div className='item-feature item-name'>{value.name}</div>
-                                        <div className='item-feature item-price'>{value.price}</div>
+                                        <div className='item-feature item-price'>{value.price + " $"}</div>
                                     </Link>
                                 )
                             }
