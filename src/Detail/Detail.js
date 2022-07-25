@@ -28,6 +28,7 @@ function Detail() {
 
 
     const addToCart = (data) => {
+        // localStorage.removeItem('cartData');
         let object = []
         var item = localStorage.getItem('cartData');
         if (item === null) {
@@ -41,8 +42,8 @@ function Detail() {
             }
         }
         object.push({
-            id: data.id,
-            url: data.image ? data.image : Image,
+            id: data.productID,
+            // url: data.image ? data.image : Image,
             name: data.productName,
             num: parseFloat(value) - 1,
             price: data.price

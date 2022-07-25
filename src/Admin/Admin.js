@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Admin.scss'
 import { CommonUtils } from '../ultis';
-
-import { addNewProduct } from '../Services/userService'
+import { addNewProduct, getProductType } from '../Services/userService'
 
 function Admin() {
     const handleInput = () => {
@@ -10,9 +9,12 @@ function Admin() {
     const [arrValue, setarrValue] = useState([]);
     const [imageBase64, setImage] = useState('');
 
+    const [arrCategory, setArrCategory] = useState([]);
+
     const [value, setValue] = useState({
         name: '',
         category: '',
+        subCategory: '',
         quantity: '',
         price: '',
         image: '',
@@ -31,6 +33,21 @@ function Admin() {
             category: event.target.value
         })
     }
+
+    useEffect(async () => {
+        // console.log('cate', value.category)
+        let data = await getProductType(value.category)
+        // console.log(data)
+        setArrCategory(data)
+    }, [value])
+
+    const onChangeSubCategory = (event) => {
+        setValue({
+            ...value,
+            subCategory: event.target.value
+        })
+    }
+
 
     const onChangeQuantity = (event) => {
         setValue({
@@ -95,7 +112,7 @@ function Admin() {
             description: ''
         })
         // window.location.assign("http://localhost:3000/admin")
-        window.location.reload();
+        // window.location.reload();
     }
 
     return (
@@ -113,9 +130,25 @@ function Admin() {
                     onChange={(event) => onChangeCategory(event)}
                 >
                     <option selected>Choose category</option>
-                    <option value="COFT01">Coffee</option>
+                    <option value="COFT00">Coffee</option>
+                    <option value="TEAT00">Tea</option>
+                    <option value="CAKT00">Cake</option>
+                </select>
+            </div>
+            <div className="mb-3 input-item">
+                <label for="inputCategory" className="form-label">Sub-Category</label>
+                <select name="category" className="form-select" aria-label="Default select example"
+                    onChange={(event) => onChangeSubCategory(event)}
+                >
+                    <option selected>Choose category</option>
+                    {arrCategory.map((value, index) => {
+                        return (
+                            <option value={value.categoryID} key={index}>{value.name}</option>
+                        )
+                    })}
+                    {/* <option value="COFT01">Coffee</option>
                     <option value="TEAT01">Tea</option>
-                    <option value="CAKT01">Cake</option>
+                    <option value="CAKT01">Cake</option> */}
                 </select>
             </div>
             <div className="mb-3 input-item">

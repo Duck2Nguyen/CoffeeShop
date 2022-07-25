@@ -25,10 +25,11 @@ const getItemByID = (id) => {
     return axios.get(`/collections/${id}`);
 }
 
+
 const addNewProduct = (data) => {
     // console.log('vao handle')
     return axios.post('/addProduct', {
-        categoryID: data.category,
+        categoryID: data.subCategory,
         name: data.name,
         description: data.description,
         image: data.image,
@@ -38,8 +39,15 @@ const addNewProduct = (data) => {
     });
 }
 
+const getProductType = (id) => {
+    // console.log('vao handle', id)
+    return axios.post('/getProductType', {
+        id: id
+    });
+}
+
 
 export {
     handleLoginApi, getAllCollection, getItemByID, addNewProduct,
-    handleRegisterApi
+    handleRegisterApi, getProductType
 } 

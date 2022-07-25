@@ -28,10 +28,11 @@ function Homepage() {
     useEffect(async () => {
         try {
             let data = await getAllCollection()
-            console.log(data)
+            console.log('data', data)
             if (data && data.errCode === 0) {
                 var arrayValue = [];
                 var array = data.users;
+                // console.log('data users', data.users)
                 array.map((value, index) => {
                     arrayValue.push(
                         {
@@ -43,8 +44,9 @@ function Homepage() {
                         }
                     )
                 })
-
+                // console.log('array', array)
                 setarrValue(arrayValue)
+                // console.log('arrayvalue', arrValue)
             }
         } catch (error) {
             console.log('loi cm rofoi')
@@ -66,15 +68,15 @@ function Homepage() {
                     <a activeClassName="active1" href="#itemCoffee" exact>COFFEE</a>
                     <a activeClassName="active1" href="#itemCake">CAKE</a>
                     <a activeClassName="active1" href="#itemTea">TEA</a>
-                    <a activeClassName="active1" href="/brew-gear">BERW GEAR</a>
-                    <a activeClassName="active1" href="/subcriptions">SUBCIPTIONS</a>
+                    {/* <a activeClassName="active1" href="/brew-gear">BERW GEAR</a>
+                    <a activeClassName="active1" href="/subcriptions">SUBCIPTIONS</a> */}
                 </div>
                 <div className='container coffee'>
                     <div className='item__title' id='itemCoffee'>COFFEE</div>
                     <div className='row'>
                         {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
                             // console.log(value)
-                            if (value.parentID === 'COF000') {
+                            if (value.parentID === 'COFT00') {
                                 return (
                                     <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
                                         <img src={value.url} className="item-image"></img>
@@ -91,7 +93,7 @@ function Homepage() {
                     <div className='item__title' id='itemCake'>CAKE</div>
                     <div className='row'>
                         {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
-                            if (value.parentID === "CKE000") {
+                            if (value.parentID === "CAKT00") {
                                 return (
                                     <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
                                         <img src={value.url} className="item-image"></img>
@@ -105,7 +107,7 @@ function Homepage() {
                     <div className='item__title' id='itemTea'>TEA</div>
                     <div className='row'>
                         {arrValue && arrValue.length > 0 && arrValue.map((value, index) => {
-                            if (value.parentID === "TEA000") {
+                            if (value.parentID === "TEAT00") {
                                 return (
                                     <Link key={value.id} className='item col-3' to={`/detail/${value.id}`}>
                                         <img src={value.url} className="item-image"></img>

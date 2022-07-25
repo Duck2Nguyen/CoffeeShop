@@ -12,7 +12,6 @@ function Login() {
         userName: '',
         password: ''
     });
-    const [arrValue, setarrValue] = useState([]);
 
     const onChangeInput = (event) => {
         // console.log(event.target.value)
@@ -39,7 +38,8 @@ function Login() {
     }
 
     const handleLogin2 = async () => {
-        console.log('local', JSON.parse(localStorage.getItem('isLogin')))
+        console.log('local', JSON.parse(localStorage.getItem('dataLogin')))
+        let loginData = {}
         // console.log(value.userName, value.password)
         if (value.userName === '' || value.password === undefined) {
             toast.error("Input Invalid");
@@ -53,7 +53,11 @@ function Login() {
             let data = await handleLoginApi(value.userName, value.password)
             if (data && data.errCode !== 0) {
                 console.log("error")
-                localStorage.setItem('isLogin', 'false')
+                loginData = {
+                    isLogin: false,
+                    data: {}
+                }
+                localStorage.setItem('dataLogin', JSON.stringify(loginData))
                 toast.error("Username or password is incorrect! Please try again!!!");
                 setValue({
                     userName: '',
@@ -63,16 +67,18 @@ function Login() {
             if (data && data.errCode === 0) {
                 toast.success("Login successfull!");
                 console.log('data', data)
-                localStorage.setItem('isLogin', 'true')
-                localStorage.setItem('customerData', JSON.stringify(data))
-                console.log('local', JSON.parse(localStorage.getItem('customerData')))
+                loginData = {
+                    isLogin: true,
+                    data: data.data
+                }
+                localStorage.setItem('dataLogin', JSON.stringify(loginData))
+                console.log('check local', JSON.parse(localStorage.getItem('dataLogin')))
                 setValue({
                     userName: '',
                     password: ''
                 })
-                console.log('local', JSON.parse(localStorage.getItem('isLogin')))
                 setTimeout(() => {
-                    window.location.assign("http://localhost:3000")
+                    window.location.assign("http://localhost:3000/admin")
                 }, 3000);
 
                 // this.props.history.push(`/home`)

@@ -1,0 +1,66 @@
+.checkout-display{
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    // width: 100%;
+    margin-top: 110px;
+    padding: 0 40px;
+    color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: CanelaText-Light;
+    .checkout-name{
+        font-size: 36px;
+        font-weight: 500;
+        font-variant-numeric: lining-nums;
+        color: rgb(51, 54, 56);
+    }
+    .checkout-des{
+        font-size: 17px;
+    }
+    .checkout-form{
+        width: 460px;
+        display: flex;
+        flex-direction: column;
+        box-sizing:border-box;
+        justify-content: flex-start;
+        color:rgb(51, 54, 56);
+        // font-family: CanelaText-Light;
+        .form-input{
+            padding: 0 18px;
+            margin-top: 20px;
+            height :52px;
+            line-height :29.4667px;
+            font-size: 18px;
+            font-style: normal;
+            font-variant-numeric :lining-nums;
+            font-weight: 400;
+            border-color: rgba(51, 54, 56, 0.15);
+        }
+        .edit{
+        //    font-weight: 500;
+            padding-left: 10px;
+            text-align: left;
+            margin-top: 0px;
+        }
+        .total{
+            margin-top: 20px;
+        }
+    }
+    .checkout-button{
+        padding: 0 18px;
+        margin-top: 20px;
+        height :52px;
+        line-height :29.4667px;
+        font-size: 18px;
+        font-style: normal;
+        font-variant-numeric :lining-nums;
+        font-weight: 400;
+        color: white;
+        background-color: rgb(187, 165, 123);
+        border-color: rgba(51, 54, 56, 0.15);
+        cursor: pointer;
+    }
+}

@@ -4,6 +4,7 @@ import { BsFillCartCheckFill } from 'react-icons/bs'
 import { Link, NavLink } from 'react-router-dom';
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
 import Header from '../Header/Header'
+import { getItemByID } from '../Services/userService'
 // import ModalInput from './ModalInput';
 
 function Cart() {
@@ -13,15 +14,15 @@ function Cart() {
     const [arrValue, setarrValue] = useState([]);
 
     const checkout = () => {
-        localStorage.removeItem('cartData');
-        setValue(1)
-        console.log(sum + '' + numItem)
-        window.location.reload();
+        // localStorage.removeItem('cartData');
+        // setValue(1)
+        // console.log(sum + '' + numItem)
+        // window.location.reload();
     }
 
     useEffect(async () => {
         var i = 0;
-        var array = [];
+        let array = [];
         var item = localStorage.getItem('cartData');
         let object = {}
         try {
@@ -29,23 +30,43 @@ function Cart() {
         } catch (error) {
             console.log('err item', item);
         }
-        console.log(object)
+        console.log('object', object)
         if (object) {
-            object.map((value, index) => {
+            let array = [];
+            object.map(async (value, index) => {
+                console.log("check nhe")
+                let data = await getItemByID(value.id)
+                console.log("data image", data)
+                // data.data[0]
+                setarrValue([...array, {
+                    name: value.name,
+                    url: data.data[0] !== undefined ? data.data[0].image : Image,
+                    num: parseInt(value.num) + 1,
+                    price: parseFloat(value.price) * (parseFloat(value.num) + 1),
+                    id: value.id
+                }])
                 array.push({
                     name: value.name,
-                    url: value.url,
+                    url: data.data[0] !== undefined ? data.data[0].image : Image,
                     num: parseInt(value.num) + 1,
                     price: parseFloat(value.price) * (parseFloat(value.num) + 1),
                     id: value.id
                 })
             })
-
+            // console.log('check array', array)
+            // if (array && array.length > 0) {
+            //     setarrValue(array)
+            //     console.log("xet array")
+            // }
+            // setarrValue(array)
         }
-        console.log(array)
-        // console.log(array)
-        await setarrValue(array)
+        console.log('check arrvalue', arrValue)
+        // if (array && array.length > 0) {
+        //     setarrValue(array)
+        //     console.log("xet array")
+        // }
     }, [])
+
 
     useEffect(() => {
         var tong = 0;
@@ -55,6 +76,15 @@ function Cart() {
             })
         }
         setSum(tong);
+        if (localStorage) {
+            localStorage.setItem('cartTotal', tong)
+            var item = localStorage.getItem('cartTotal');
+            console.log(item)
+            // window.location.reload();
+        } else {
+            alert('No local')
+        }
+
     })
 
     return (
@@ -72,7 +102,7 @@ function Cart() {
                     <div className='cart-content'>
                         {arrValue.map((value, index) => {
                             return (
-                                <div className='cart-item' key={value.id}>
+                                <div className='cart-item' key={index}>
                                     <div className='cart-picture'>
                                         <img src={value.url} className="item-image"></img>
                                     </div>
@@ -104,7 +134,7 @@ function Cart() {
                         <div className='cart-more__right'>Shipping & taxes calculated at checkout</div>
                     </div>
                     <button className='add'>
-                        <Link className='add-name' onClick={() => checkout()} to={'/cart'}>ORDER .  {`$${sum}`} USD</Link>
+                        <Link className='add-name' to={'/checkout'}>ORDER .  {`$${sum}`} USD</Link>
                     </button>
                 </div>
             </div>
