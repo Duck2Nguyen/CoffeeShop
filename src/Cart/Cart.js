@@ -41,15 +41,15 @@ function Cart() {
                 setarrValue([...array, {
                     name: value.name,
                     url: data.data[0] !== undefined ? data.data[0].image : Image,
-                    num: parseInt(value.num) + 1,
-                    price: parseFloat(value.price) * (parseFloat(value.num) + 1),
+                    num: parseInt(value.num),
+                    price: parseFloat(value.price) * (parseFloat(value.num)),
                     id: value.id
                 }])
                 array.push({
                     name: value.name,
                     url: data.data[0] !== undefined ? data.data[0].image : Image,
-                    num: parseInt(value.num) + 1,
-                    price: parseFloat(value.price) * (parseFloat(value.num) + 1),
+                    num: parseInt(value.num),
+                    price: parseFloat(value.price) * (parseFloat(value.num)),
                     id: value.id
                 })
             })

@@ -46,8 +46,33 @@ const getProductType = (id) => {
     });
 }
 
+const addOrder = (dataOrder) => {
+    return axios.post('/addOrder', {
+        username: dataOrder.value.username,
+        message: 'OK',
+        totalPayment: dataOrder.totalPayment,
+        fullname: dataOrder.value.fullname,
+        address: dataOrder.value.address,
+        phone: dataOrder.value.phone,
+        email: dataOrder.value.email,
+        data: dataOrder.data
+    });
+}
+
+const getAllOrder = () => {
+    return axios.post('/getAllOrder');
+}
+
+const changeStatus = (data) => {
+    // console.log('vao handle', id)
+    return axios.post('/changeStatus', {
+        orderID: data.orderID,
+        status: data.status
+    });
+}
 
 export {
     handleLoginApi, getAllCollection, getItemByID, addNewProduct,
-    handleRegisterApi, getProductType
+    handleRegisterApi, getProductType, addOrder, getAllOrder,
+    changeStatus
 } 

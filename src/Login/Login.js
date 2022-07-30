@@ -78,7 +78,7 @@ function Login() {
                     password: ''
                 })
                 setTimeout(() => {
-                    window.location.assign("http://localhost:3000/admin")
+                    window.location.assign("http://localhost:3000")
                 }, 3000);
 
                 // this.props.history.push(`/home`)

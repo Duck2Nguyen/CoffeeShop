@@ -17,6 +17,9 @@ function Detail() {
     }
     const addItem = () => {
         let value1 = parseInt(value) + 1;
+        if (value1 > data.quantity) {
+            value1 = data.quantity
+        }
         setValue(value1)
     }
     const subItem = () => {
@@ -42,10 +45,11 @@ function Detail() {
             }
         }
         object.push({
+            cartID: object.length,
             id: data.productID,
             // url: data.image ? data.image : Image,
             name: data.productName,
-            num: parseFloat(value) - 1,
+            num: parseFloat(value),
             price: data.price
         })
 
@@ -64,32 +68,6 @@ function Detail() {
             // console.log(localStorage.key(i));
         };
     }
-
-
-    // useEffect(async () => {
-    //     let array = [];
-    //     var i = 1;
-    //     for (i; i < 13; i++) {
-    //         array.push(
-    //             {
-    //                 id: i,
-    //                 url: Image,
-    //                 name: `Blue Boy ${i}`,
-    //                 price: '17.00'
-    //             }
-    //         )
-    //     }
-    //     // console.log(array)
-    //     if (array && array.length !== 0) {
-    //         try {
-    //             await setarrValue(array);
-    //         } catch (error) {
-    //             console.log('err value', arrValue);
-    //         }
-    //     }
-    //     // setarrValue(array);
-    //     // console.log(arrValue)
-    // }, [])
 
 
     // console.log(arrValue)
@@ -133,6 +111,7 @@ function Detail() {
                         <div className='detail-item'>
                             <div className='item-name'>{data.productName}</div>
                             <div className='item-price'>${data.price}</div>
+                            <div className='item-price avaiable'>Avaiable: {data.quantity}</div>
                         </div>
                         <div className='detail-quantity'>
                             <div className='quantity-title'>Quantity:</div>
@@ -142,7 +121,7 @@ function Detail() {
                                 <button className='quantity-button' onClick={() => subItem()}>-</button>
                             </div>
                         </div>
-                        <button className='add'>
+                        <button className={data.quantity == 0 ? 'hethang' : 'add'}>
                             <div className='add-name' onClick={() => addToCart(data)}>ADD TO CART</div>
                         </button>
                     </div>

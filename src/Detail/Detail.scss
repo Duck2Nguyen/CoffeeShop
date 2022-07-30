@@ -43,6 +43,10 @@
                         font-size: 22px;
                         font-weight: 500;
                     }
+                    .avaiable{
+                        margin-top: 15px;
+                        font-size: 20px;
+                    }
                 }
 
                 .detail-quantity{
@@ -70,7 +74,10 @@
                         }
                     }
                 }
-
+                .hethang{
+                    cursor: default;
+                    display: none;
+                }
                 .add{
                     margin-top: 30px;
                     padding: 0 15px;

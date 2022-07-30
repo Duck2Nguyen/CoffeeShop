@@ -3,6 +3,7 @@ import './Checkout.scss'
 import Header from '../Header/Header';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addOrder } from '../Services/userService'
 
 function Checkout() {
     const handleInput = () => {
@@ -34,8 +35,35 @@ function Checkout() {
             address: event.target.value
         })
     }
-    const handleCheckout = () => {
-        console.log(value)
+    const handleCheckout = async () => {
+        // console.log(value)
+        let data = JSON.parse(localStorage.getItem('cartTotal'))
+        let data2 = JSON.parse(localStorage.getItem('cartData'))
+        // console.log('data1', JSON.parse(data))
+        // console.log('data2', JSON.parse(data2))
+
+        let dataOrder = {
+            totalPayment: data,
+            data: data2,
+            value: value
+        }
+        console.log(dataOrder)
+
+        try {
+            let errCode = await addOrder(dataOrder)
+            console.log(errCode)
+            localStorage.removeItem('cartData');
+        } catch (error) {
+            console.log('loi cm rofoi')
+            if (error.response) {
+                if (error.response.data) {
+                    console.log("error lan 2")
+                }
+                console.log(error.response)
+            }
+        }
+
+
     }
     useEffect(async () => {
         if (localStorage) {

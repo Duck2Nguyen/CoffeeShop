@@ -7,6 +7,7 @@ import Detail from './Detail/Detail';
 import Cart from './Cart/Cart';
 import Admin from './Admin/Admin';
 import Checkout from './Cart/Checkout';
+import CheckOrder from './Admin/CheckOrder';
 import {
   BrowserRouter as Router,
   Switch,
@@ -42,6 +43,9 @@ function App() {
           </Route>
           <Route path="/admin" exact>
             <Admin />
+          </Route>
+          <Route path="/checkorder" exact>
+            <CheckOrder />
           </Route>
           {/* <Route path="/todo">
             <Todo />
