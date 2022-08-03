@@ -71,8 +71,54 @@ const changeStatus = (data) => {
     });
 }
 
+
+const getAllProduct = () => {
+    return axios.post('/loadProduct');
+}
+
+const changeQuantity = (data) => {
+    return axios.post('/changeQuantity', {
+        productID: data.productID,
+        quantity: data.quantity
+    });
+}
+
+const getUserOrders = (data) => {
+    return axios.post('/loadUserOrders', {
+        username: data.username
+    });
+}
+
+const getOrderDetail = (orderID) => {
+    return axios.post(`/loadOrderDetail/${orderID}`);
+}
+
+const addReview = (data) => {
+    return axios.post('/addReview', {
+        orderItemID: parseInt(data.orderItemID),
+        username: data.username,
+        comment: data.comment,
+        rating: parseInt(data.star)
+    });
+}
+
+
+const getProductReview = (data) => {
+    return axios.post('/getProductReviews', {
+        productID: data.productID
+    });
+}
+
+const getAllSortedProduct = (data) => {
+    return axios.post('/getAllSortedProduct', {
+        sortBy: data.sortBy
+    });
+}
+
+
 export {
     handleLoginApi, getAllCollection, getItemByID, addNewProduct,
     handleRegisterApi, getProductType, addOrder, getAllOrder,
-    changeStatus
+    changeStatus, getAllProduct, changeQuantity, getUserOrders,
+    getOrderDetail, addReview, getProductReview, getAllSortedProduct
 } 

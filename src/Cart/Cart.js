@@ -3,8 +3,11 @@ import './Cart.scss';
 import { BsFillCartCheckFill } from 'react-icons/bs'
 import { Link, NavLink } from 'react-router-dom';
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
-import Header from '../Header/Header'
+import Header from '../Header/Header';
+import Footer from '../Header/Footer';
 import { getItemByID } from '../Services/userService'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import ModalInput from './ModalInput';
 
 function Cart() {
@@ -13,11 +16,24 @@ function Cart() {
     const [numItem, setnumItem] = useState(0);
     const [arrValue, setarrValue] = useState([]);
 
-    const checkout = () => {
-        // localStorage.removeItem('cartData');
-        // setValue(1)
-        // console.log(sum + '' + numItem)
-        // window.location.reload();
+    const handleOrder = () => {
+        let data = JSON.parse(localStorage.getItem('dataLogin'));
+        console.log('data login cart ', data)
+        if (data.isLogin === true && sum > 0) {
+            window.location.assign("http://localhost:3000/checkout")
+        }
+        else if (sum === 0) {
+            toast.error('Cart is empty! You must add item to the cart!!!')
+            setTimeout(() => {
+                window.location.assign("http://localhost:3000")
+            }, 3000);
+        }
+        else {
+            toast.error('You must login to order item!!!')
+            setTimeout(() => {
+                window.location.assign("http://localhost:3000/login")
+            }, 3000);
+        }
     }
 
     useEffect(async () => {
@@ -87,6 +103,12 @@ function Cart() {
 
     })
 
+    const handleClearCart = () => {
+        localStorage.removeItem('cartData');
+        window.location.assign("http://localhost:3000/cart")
+    }
+
+
     return (
         <div className='cart-display'>
             <Header />
@@ -97,7 +119,7 @@ function Cart() {
                             <div className='cart-icon'> <BsFillCartCheckFill /></div>
                             <div className='cart-num'>{arrValue.length} items</div>
                         </div>
-                        {/* <div className='cart-header__right'>X</div> */}
+                        <div className='cart-header__right' onClick={() => handleClearCart()}>X</div>
                     </div>
                     <div className='cart-content'>
                         {arrValue.map((value, index) => {
@@ -116,28 +138,28 @@ function Cart() {
                                 </div>
                             )
                         })}
-                        {/* <div className='cart-item'>
-                            <div className='cart-picture'>
-                                <img src={Image} className="item-image"></img>
-                            </div>
-                            <div className='cart-order'>
-                                <div className='item-detail'>
-                                    <div className='item-name'>Blue Boy</div>
-                                    <div className='item-price'>$1700</div>
-                                </div>
-                                <div className='cart-quantity'>12oz</div>
-                            </div>
-                        </div> */}
                     </div>
                     <div className='cart-more'>
                         <div className='cart-more__left'>Add order note</div>
                         <div className='cart-more__right'>Shipping & taxes calculated at checkout</div>
                     </div>
                     <button className='add'>
-                        <Link className='add-name' to={'/checkout'}>ORDER .  {`$${sum}`} USD</Link>
+                        <Link className='add-name' onClick={() => handleOrder()} >ORDER .  {`$${sum}`} USD</Link>
                     </button>
                 </div>
             </div>
+            <Footer />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             {/* <ModalInput /> */}
         </div>
 

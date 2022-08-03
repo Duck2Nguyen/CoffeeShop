@@ -1,37 +1,25 @@
 import { useState, useEffect } from 'react';
 import './Homepage.scss'
 import Header from '../Header/Header'
+import Footer from '../Header/Footer';
 import { Link, NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
-import { getAllCollection } from '../Services/userService'
+import { getAllCollection, getAllSortedProduct } from '../Services/userService'
 
 function Homepage() {
 
     const [arrValue, setarrValue] = useState([]);
-    // useEffect(async () => {
-    //     var array = [];
-    //     for (var i = 1; i < 13; i++) {
-    //         array.push(
-    //             {
-    //                 id: i,
-    //                 url: Image,
-    //                 name: `Blue Boy ${i}`,
-    //                 price: '17.00'
-    //             }
-    //         )
-    //     }
-    //     console.log(array);
-    //     setarrValue(array)
-    // }, [])
-
+    const [cate, setCate] = useState('INC-productName')
     useEffect(async () => {
         try {
-            let data = await getAllCollection()
+            let data = await getAllSortedProduct({
+                sortBy: cate
+            })
             console.log('data', data)
-            if (data && data.errCode === 0) {
+            if (data && data.length > 0) {
                 var arrayValue = [];
-                var array = data.users;
+                var array = data;
                 // console.log('data users', data.users)
                 array.map((value, index) => {
                     arrayValue.push(
@@ -57,8 +45,19 @@ function Homepage() {
                 console.log(error.response)
             }
         }
-    }, [])
+    }, [cate])
 
+    // useEffect(async () => {
+    //     let data2;
+    //     data2 = await getAllSortedProduct({
+    //         sortBy: cate
+    //     })
+    //     console.log('data2', data2)
+    // }, [cate])
+
+    const onChangeCategory = (event) => {
+        setCate(prev => event.target.value)
+    }
     return (
         <>
             <Header />
@@ -68,6 +67,14 @@ function Homepage() {
                     <a activeClassName="active1" href="#itemCoffee" exact>COFFEE</a>
                     <a activeClassName="active1" href="#itemCake">CAKE</a>
                     <a activeClassName="active1" href="#itemTea">TEA</a>
+                    <select className='sort-item' onChange={(event) => onChangeCategory(event)}>
+                        <option value='INC-productName' selected>Sort</option>
+                        <option value='INC-price'>Price, low to high</option>
+                        <option value='DEC-price'>Price, high to low</option>
+                        <option value='INC-productName'>Alphabetically, A-Z</option>
+                        <option value='DEC-productName'>Alphabetically, Z-A</option>
+                        <option value='DEC-rating'>Rating</option>
+                    </select>
                     {/* <a activeClassName="active1" href="/brew-gear">BERW GEAR</a>
                     <a activeClassName="active1" href="/subcriptions">SUBCIPTIONS</a> */}
                 </div>
@@ -121,6 +128,7 @@ function Homepage() {
                 </div>
 
             </div>
+            <Footer />
         </>
     )
 }

@@ -8,6 +8,10 @@ import Cart from './Cart/Cart';
 import Admin from './Admin/Admin';
 import Checkout from './Cart/Checkout';
 import CheckOrder from './Admin/CheckOrder';
+import AddQuantity from './Admin/AddQuantity';
+import OrderStatus from './Customer/OrderStatus';
+import Rate from './Customer/Rate'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -46,6 +50,15 @@ function App() {
           </Route>
           <Route path="/checkorder" exact>
             <CheckOrder />
+          </Route>
+          <Route path="/addquantity" exact>
+            <AddQuantity />
+          </Route>
+          <Route path="/orderstatus" exact>
+            <OrderStatus />
+          </Route>
+          <Route path="/rate/:id" exact>
+            <Rate />
           </Route>
           {/* <Route path="/todo">
             <Todo />

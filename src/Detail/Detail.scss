@@ -96,6 +96,52 @@
                 margin-top: 80px;
                 width: 70%; 
                 text-align: left;
+                .des{
+                    font-size: 20px;
+                    font-weight: 600;
+                    text-decoration:underline;
+                    padding-bottom: 10px;
+                }
+            
+            }
+            .review{
+                margin-top: 80px;
+                .review-title{
+                    font-size: 40px;
+                    font-weight: 900;
+                    margin-bottom: 80px;
+                }
+                .content-title{
+                        width: 100%;
+                        border-bottom: 1px solid rgb(224, 225, 225);
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin-bottom: 20px;
+                        text-align: left;
+                }
+                .review-content{
+                    padding-top: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid rgb(224, 225, 225);
+                    
+                    .content-name{
+                        margin-bottom: 10px;
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                    .content-star{
+                        margin-bottom: 10px;
+                        font-size: 15px;
+                    }
+                    .content-comment{
+                        font-size: 15px;
+                        text-align: left;
+                    }
+                }
             }
         }
     }    

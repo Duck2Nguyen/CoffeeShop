@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import './Register.scss'
 import Header from '../Header/Header';
+import Footer from '../Header/Footer';
 import { handleRegisterApi } from '../Services/userService'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function Register() {
@@ -139,6 +141,7 @@ function Register() {
                     </button>
                 </div>
             </div>
+            <Footer />
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

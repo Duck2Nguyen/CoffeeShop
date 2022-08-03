@@ -12,7 +12,11 @@
         color: white;
         height: 30px;
         padding: auto auto;
+        padding-top: 4px;
         // line-height: 10px;
+    }
+    .input-quantity{
+        width: 100px;
     }
 }
   
@@ -34,9 +38,9 @@
     color: white;
 }
 
-.checkorder-container{
+.addQuantity-container{
     padding-top: 150px;
-    .checkorder-title{
+    .addQuantity-title{
         font-size: 32px;
         font-weight: 700;
         color: #04AA6D;

@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import './Header.scss'
-import { BsFillCartCheckFill } from 'react-icons/bs'
 import { GrLogin, GrLogout } from 'react-icons/gr'
-import { BiUser } from 'react-icons/bi'
+import { Link } from 'react-router-dom';
+
 
 function Header() {
-    const handleInput = () => {
-    }
     const [value, setValue] = useState(false);
     const [arrValue, setarrValue] = useState([]);
 
@@ -24,14 +22,11 @@ function Header() {
     return (
         <div className='header-container'>
             <div className='header-left'>
-                <a className='header-item' href="/home" exact>Shop</a>
-                <div className='header-item'>Learn</div>
-                <div className='header-item'>Visit</div>
-                <div className='header-item'>Partner</div>
+                <Link className='header-item' to='/checkorder'>Manage Order </Link>
+                <Link className='header-item' to='./admin'>Add Product</Link>
+                <Link className='header-item' to='/addquantity'>Add Quantity</Link>
             </div>
             <div className='header-right'>
-                {value === true && <a className='header-item header-icon' href='/orderstatus'> <BiUser /></a>}
-                <a className='header-item header-icon' href='/cart'> <BsFillCartCheckFill /></a>
                 <a className='header-item  header-icon' href='/login'> {value === true ? <GrLogout /> : <GrLogin />}</a>
             </div>
 

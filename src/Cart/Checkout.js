@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Checkout.scss'
 import Header from '../Header/Header';
+import Footer from '../Header/Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addOrder } from '../Services/userService'
@@ -53,8 +54,14 @@ function Checkout() {
             let errCode = await addOrder(dataOrder)
             console.log(errCode)
             localStorage.removeItem('cartData');
+            toast.success("Checkout succesfully!!")
+            setTimeout(() => {
+                window.location.assign("http://localhost:3000")
+            }, 3000);
+
         } catch (error) {
             console.log('loi cm rofoi')
+            toast.error("Checkout fail!!")
             if (error.response) {
                 if (error.response.data) {
                     console.log("error lan 2")
@@ -97,6 +104,7 @@ function Checkout() {
                     </button>
                 </div>
             </div>
+            <Footer />
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

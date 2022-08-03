@@ -4,8 +4,7 @@ import Header from '../Header/Header';
 import { handleLoginApi } from '../Services/userService'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import toast, { Toaster } from 'react-hot-toast';
-// import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Footer from '../Header/Footer';
 
 function Login() {
     const [value, setValue] = useState({
@@ -67,6 +66,7 @@ function Login() {
             if (data && data.errCode === 0) {
                 toast.success("Login successfull!");
                 console.log('data', data)
+                localStorage.removeItem('cartData');
                 loginData = {
                     isLogin: true,
                     data: data.data
@@ -77,9 +77,18 @@ function Login() {
                     userName: '',
                     password: ''
                 })
-                setTimeout(() => {
-                    window.location.assign("http://localhost:3000")
-                }, 3000);
+                if (data.data.username === 'admin') {
+                    setTimeout(() => {
+                        window.location.assign("http://localhost:3000/checkorder")
+                    }, 3000);
+                }
+                else {
+                    setTimeout(() => {
+                        window.location.assign("http://localhost:3000")
+                    }, 3000)
+                }
+
+
 
                 // this.props.history.push(`/home`)
             }
@@ -96,6 +105,15 @@ function Login() {
         }
 
     }
+
+    useEffect(() => {
+        let loginData = {
+            isLogin: false,
+            data: {}
+        }
+        localStorage.setItem('dataLogin', JSON.stringify(loginData))
+        console.log('data login', JSON.parse(localStorage.getItem('dataLogin')))
+    }, [])
 
     return (
         <div className='login-display'>
@@ -116,6 +134,7 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <Footer />
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

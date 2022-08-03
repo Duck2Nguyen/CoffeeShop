@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import './Admin.scss'
+import Header from './Header'
 import { CommonUtils } from '../ultis';
 import { addNewProduct, getProductType } from '../Services/userService'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Admin() {
     const handleInput = () => {
@@ -91,10 +94,15 @@ function Admin() {
         try {
             let data = await addNewProduct(value);
             console.log("data", data)
+            if (data && data.errCode === '0') {
+                toast.success("Add product successfully!!")
+            }
+            else {
+                toast.error("Fail to add product!")
+            }
         } catch (error) {
-            // toast.error("Login Error");
+            toast.error("Fail to add product!")
             console.log('loi cm rofoi')
-            // localStorage.setItem('isLogin', 'false')
             if (error.response) {
                 if (error.response.data) {
                     console.log("error lan 2")
@@ -116,82 +124,98 @@ function Admin() {
     }
 
     return (
-        <div className='admin-input'>
-            <div className="mb-3 input-item">
-                <label className="form-label">Product name</label>
-                <input type="text" placeholder="Name" className="form-control" required
-                    value={value.name}
-                    onChange={(event) => onChangeName(event)}
-                />
-            </div>
-            <div className="mb-3 input-item">
-                <label for="inputCategory" className="form-label">Category</label>
-                <select name="category" className="form-select" aria-label="Default select example"
-                    onChange={(event) => onChangeCategory(event)}
-                >
-                    <option selected>Choose category</option>
-                    <option value="COFT00">Coffee</option>
-                    <option value="TEAT00">Tea</option>
-                    <option value="CAKT00">Cake</option>
-                </select>
-            </div>
-            <div className="mb-3 input-item">
-                <label for="inputCategory" className="form-label">Sub-Category</label>
-                <select name="category" className="form-select" aria-label="Default select example"
-                    onChange={(event) => onChangeSubCategory(event)}
-                >
-                    <option selected>Choose category</option>
-                    {arrCategory.map((value, index) => {
-                        return (
-                            <option value={value.categoryID} key={index}>{value.name}</option>
-                        )
-                    })}
-                    {/* <option value="COFT01">Coffee</option>
-                    <option value="TEAT01">Tea</option>
-                    <option value="CAKT01">Cake</option> */}
-                </select>
-            </div>
-            <div className="mb-3 input-item">
-                <label for="inputQuantity" className="form-label">Quantity</label>
-                <input name="quantity" type="text" className="form-control" id="inputQuantity"
-                    value={value.quantity}
-                    onChange={(event) => onChangeQuantity(event)}
-                />
-            </div>
-            <div className="mb-3 input-item">
-                <label for="inputPrice" className="form-label">Price</label>
-                <div className="input-group mb-3">
-                    <span className="input-group-text">$</span>
-                    <input name="price" type="text" className="form-control" id="inputPrice"
-                        value={value.price}
-                        onChange={(event) => onChangePrice(event)}
+        <div className='input-display'>
+            <Header />
+            <div className='admin-input'>
+                <div className='admin-title'>Add Product</div>
+                <div className="mb-3 input-item">
+                    <label className="form-label">Product name</label>
+                    <input type="text" placeholder="Name" className="form-control" required
+                        value={value.name}
+                        onChange={(event) => onChangeName(event)}
                     />
                 </div>
-            </div>
-            <div className="mb-3 input-item">
-                <label for="loadImage" className="form-label">Upload image</label>
-                <div className="input-group mb-3">
-                    <input name="image" type="file" className="form-control" id="loadImage"
-                        onChange={(event) => onChangeImage(event)}
+                <div className="mb-3 input-item">
+                    <label for="inputCategory" className="form-label">Category</label>
+                    <select name="category" className="form-select" aria-label="Default select example"
+                        onChange={(event) => onChangeCategory(event)}
+                    >
+                        <option selected>Choose category</option>
+                        <option value="COFT00">Coffee</option>
+                        <option value="TEAT00">Tea</option>
+                        <option value="CAKT00">Cake</option>
+                    </select>
+                </div>
+                <div className="mb-3 input-item">
+                    <label for="inputCategory" className="form-label">Sub-Category</label>
+                    <select name="category" className="form-select" aria-label="Default select example"
+                        onChange={(event) => onChangeSubCategory(event)}
+                    >
+                        <option selected>Choose category</option>
+                        {arrCategory.map((value, index) => {
+                            return (
+                                <option value={value.categoryID} key={index}>{value.name}</option>
+                            )
+                        })}
+                        {/* <option value="COFT01">Coffee</option>
+                        <option value="TEAT01">Tea</option>
+                        <option value="CAKT01">Cake</option> */}
+                    </select>
+                </div>
+                <div className="mb-3 input-item">
+                    <label for="inputQuantity" className="form-label">Quantity</label>
+                    <input name="quantity" type="text" className="form-control" id="inputQuantity"
+                        value={value.quantity}
+                        onChange={(event) => onChangeQuantity(event)}
                     />
                 </div>
-            </div>
-            <div className="mb-3 input-item">
-                <label for="inputDescription" className="form-label">Description</label>
-                <textarea name="description" className="form-control" id="inputDescription" rows="3"
-                    value={value.description}
-                    onChange={(event) => onChangeDescription(event)}
-                ></textarea>
-            </div>
+                <div className="mb-3 input-item">
+                    <label for="inputPrice" className="form-label">Price</label>
+                    <div className="input-group mb-3">
+                        <span className="input-group-text">$</span>
+                        <input name="price" type="text" className="form-control" id="inputPrice"
+                            value={value.price}
+                            onChange={(event) => onChangePrice(event)}
+                        />
+                    </div>
+                </div>
+                <div className="mb-3 input-item">
+                    <label for="loadImage" className="form-label">Upload image</label>
+                    <div className="input-group mb-3">
+                        <input name="image" type="file" className="form-control" id="loadImage"
+                            onChange={(event) => onChangeImage(event)}
+                        />
+                    </div>
+                </div>
+                <div className="mb-3 input-item">
+                    <label for="inputDescription" className="form-label">Description</label>
+                    <textarea name="description" className="form-control" id="inputDescription" rows="3"
+                        value={value.description}
+                        onChange={(event) => onChangeDescription(event)}
+                    ></textarea>
+                </div>
 
-            <button type="submit" className="btn btn-primary"
-                onClick={() => handleSave()}
-            >Submit</button>
+                <button type="submit" className="btn btn-primary"
+                    onClick={() => handleSave()}
+                >Submit</button>
 
-            <div className="bg-image section-outstanding-doctor"
-                style={{ backgroundImage: `url(${imageBase64})` }}
+                <div className="bg-image section-outstanding-doctor"
+                    style={{ backgroundImage: `url(${imageBase64})` }}
+                />
+            </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
             />
         </div>
+
     )
 }
 export default Admin

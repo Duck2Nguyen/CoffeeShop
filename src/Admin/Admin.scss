@@ -2,7 +2,14 @@
     width: 600px;
     margin: 10px auto;
     display: flex;
+    padding-top: 120px;
     flex-direction: column;
+    .admin-title{
+        font-size: 32px;
+        font-weight: 700;
+        color: #04AA6D;
+        margin-bottom: 20px;
+    }
     .input-item{
         width: 100%;
         display: flex;

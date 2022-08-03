@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import './CheckOrder.scss';
-import Header from './Header'
-import { getAllOrder, changeStatus } from '../Services/userService'
+import './OrderStatus.scss';
+import Header from '../Header/Header'
+import Footer from '../Header/Footer';
+import { getUserOrders, changeStatus } from '../Services/userService'
 import moment from 'moment';
+import { Link, NavLink } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function CheckOrder() {
+function OrderStatus() {
     const handleInput = () => {
     }
     // const [value, setValue] = useState([
@@ -23,7 +25,7 @@ function CheckOrder() {
     //         username: 'Andres Preses',
     //         date: '27/7/2022',
     //         total: 345,
-    //         status: 'Processing',
+    //         status: 'completed',
     //     },
     //     {
     //         orderID: 1237,
@@ -86,79 +88,12 @@ function CheckOrder() {
 
     }
 
-    const handleConfirm = async (id) => {
-        let data = {
-            orderID: id,
-            status: 'completed'
-        }
-
-        try {
-            let res = await changeStatus(data);
-            console.log("res", res)
-            if (res && res.errCode === '0') {
-                toast.success("Change status success!!")
-                let array = value
-                for (var i = 0; i < array.length; i++) {
-                    if (array[i].orderID === parseInt(id)) {
-                        array[i].status = 'completed'
-                    }
-                }
-                setValue(prev => [...array])
-            }
-            if (res && res.errCode !== '0') {
-                toast.error("Error to change status")
-            }
-        } catch (error) {
-            console.log('loi cm rofoi')
-            toast.error("Error to change status")
-            // localStorage.setItem('isLogin', 'false')
-            if (error.response) {
-                if (error.response.data) {
-                    console.log("error lan 2")
-                }
-                console.log(error.response)
-            }
-        }
-    }
-
-    const handleProcess = async (id) => {
-        let data = {
-            orderID: id,
-            status: 'processing'
-        }
-
-        try {
-            let res = await changeStatus(data);
-            console.log("res", res)
-            if (res && res.errCode === '0') {
-                toast.success("Change status success!!")
-                let array = value
-                for (var i = 0; i < array.length; i++) {
-                    if (array[i].orderID === parseInt(id)) {
-                        array[i].status = 'processing'
-                    }
-                }
-                setValue(prev => [...array])
-            }
-            if (res && res.errCode !== '0') {
-                toast.error("Error to change status")
-            }
-        } catch (error) {
-            console.log('loi cm rofoi')
-            toast.error("Error to change status")
-            // localStorage.setItem('isLogin', 'false')
-            if (error.response) {
-                if (error.response.data) {
-                    console.log("error lan 2")
-                }
-                console.log(error.response)
-            }
-        }
-    }
 
     useEffect(async () => {
         try {
-            let data = await getAllOrder()
+            let user = JSON.parse(localStorage.getItem('dataLogin'));
+            console.log(user)
+            let data = await getUserOrders(user.data)
             console.log('data', data)
             if (data && data.data.length > 0 && data.errCode === '0') {
                 var arrayValue = [];
@@ -168,7 +103,7 @@ function CheckOrder() {
                     arrayValue.push(
                         {
                             orderID: value.orderID,
-                            username: value.username,
+                            username: user.data.username,
                             date: moment(value.orderDate).format('DD/MM/YYYY'),
                             total: value.totalPayment,
                             status: value.orderStatus,
@@ -191,10 +126,10 @@ function CheckOrder() {
     }, [])
 
     return (
-        <div className='checkorder-display'>
+        <div className='orderstatus-display'>
             <Header />
-            <div className='checkorder-container'>
-                <div className='checkorder-title'>Manage Order</div>
+            <div className='orderstatus-container'>
+                <div className='orderstatus-title'>Order Stutus</div>
                 <table id="customers">
                     <tr>
                         <th>OrderID</th>
@@ -203,20 +138,7 @@ function CheckOrder() {
                         <th>Total</th>
                         <th>Status</th>
                         <th>Handle</th>
-                        {/* orderid, username, date, total, status */}
                     </tr>
-                    {/* <tr>
-                        <td>1235</td>
-                        <td>Maria Anders</td>
-                        <td>26/7/2022</td>
-                        <td>12345$</td>
-                        <td>Processing</td>
-                        <td>
-                            <button className='btn'>Canceled</button>
-                            <button className='btn'>Comfirmed</button>
-                            <button className='btn'>Processing</button>
-                        </td>
-                    </tr> */}
                     {value && value.length > 0 && value.map((value, index) => {
                         return (
                             <tr>
@@ -226,15 +148,24 @@ function CheckOrder() {
                                 <td>{value.total}$</td>
                                 <td>{value.status}</td>
                                 <td>
-                                    <button className='btn' onClick={() => handleCancel(value.orderID)}>Canceled</button>
+                                    {/* <button className='btn' onClick={() => handleCancel(value.orderID)}>Canceled</button>
                                     <button className='btn' onClick={() => handleConfirm(value.orderID)}>Comfirmed</button>
-                                    <button className='btn' onClick={() => handleProcess(value.orderID)}>Processed</button>
+                                    <button className='btn' onClick={() => handleProcess(value.orderID)}>Processed</button> */}
+                                    <button className='btn'
+                                        style={value.status !== 'processing' ? { display: "none" } : {}}
+                                        onClick={() => handleCancel(value.orderID)}
+                                    >Canceled</button>
+                                    <Link className='btn'
+                                        style={value.status === 'completed' ? {} : { display: "none" }}
+                                        to={`/rate/${value.orderID}`}
+                                    >Rate</Link>
                                 </td>
                             </tr>
                         )
                     })}
                 </table>
             </div>
+            <Footer />
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -249,4 +180,4 @@ function CheckOrder() {
         </div>
     )
 }
-export default CheckOrder
+export default OrderStatus

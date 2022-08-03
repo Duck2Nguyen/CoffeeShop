@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './Detail.scss'
-import Header from '../Header/Header'
+import Header from '../Header/Header';
+import Footer from '../Header/Footer';
 import Image from '../Homepage/Image/Coffee/coffee.jpeg'
 import { set } from 'lodash';
-import { getItemByID } from '../Services/userService'
+import { getItemByID, getProductReview } from '../Services/userService'
 
 function Detail() {
     const [value, setValue] = useState('1');
     const [data, setData] = useState({});
+    const [comment, setComment] = useState([]);
     const [arrValue, setarrValue] = useState([]);
     // const [imageUrl, setimageUrl] = useState(Image);
 
@@ -79,15 +81,25 @@ function Detail() {
             let data = await getItemByID(id)
             console.log(data.data[0])
             setData(data.data[0])
+        } catch (error) {
+            console.log('loi cm rofoi')
+            if (error.response) {
+                if (error.response.data) {
+                    console.log("error lan 2")
+                }
+                console.log(error.response)
+            }
+        }
+    }, [])
 
-            // let imageBase64 = '';
-            // if (image) {
-            //     console.log('co image')
-            //     imageBase64 = new Buffer(image, 'base64').toString('binary')
-            //     setimageUrl(imageBase64)
-            //     console.log("heloo", imageUrl)
-            // }
-
+    useEffect(async () => {
+        // console.log(id);
+        try {
+            let data = await getProductReview({
+                productID: id
+            })
+            console.log('comemt', data)
+            setComment([...data])
         } catch (error) {
             console.log('loi cm rofoi')
             if (error.response) {
@@ -110,7 +122,7 @@ function Detail() {
                     <div className='detail-order col-6'>
                         <div className='detail-item'>
                             <div className='item-name'>{data.productName}</div>
-                            <div className='item-price'>${data.price}</div>
+                            <div className='item-price'>Price: {data.price}$</div>
                             <div className='item-price avaiable'>Avaiable: {data.quantity}</div>
                         </div>
                         <div className='detail-quantity'>
@@ -127,11 +139,36 @@ function Detail() {
                     </div>
 
                     <div className='detail-descriptions col-12'>
+                        <div className='des'>Description:</div>
                         {data.description}
                     </div>
+                    <div className='review col-12'>
+                        <div className='review-title'>Reviews</div>
+                        <div className='content-title'>Reviews {comment.length}</div>
+                        {comment && comment.length > 0 && comment.map((data, index) => {
+                            return (
+                                <div className='review-content'>
+                                    <div className='content-name'>{data.username}</div>
+                                    <div className='content-star'>{
+                                        data.star === 5 ? '★ ★ ★ ★ ★ ' : data.star === 4 ? '★ ★ ★ ★' :
+                                            data.star === 3 ? '★ ★ ★  ' : data.star === 2 ? '★ ★ ' : '★'
+                                    } </div>
+                                    <div className='content-comment'>{data.comment}</div>
+                                </div>
+                            )
+                        })}
+                        {/* <div className='review-content'>
+                            <div className='content-name'>Mark</div>
+                            <div className='content-star'>5 Stars</div>
+                            <div className='content-comment'>I’m a HUUGE fan of Methodical Coffee, so I don’t write this lightly. Belly Warmer tasted a little too close to bad fast food coffee. It was way too nutty tasting and seemed a bit more bitter than I had hoped. Disappointed, for sure, but giving it a 3 Star to account for the fact it could have just been a bad batch. I doubt I’ll ever order this again, though. </div>
+                        </div> */}
+                    </div>
+
+
                 </div>
 
             </div>
+            <Footer />
         </div>
     )
 }
